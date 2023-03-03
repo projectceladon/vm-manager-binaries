@@ -4,7 +4,10 @@ name: Run VM-MANAGER-BINARIES-PR-MERGE
 on:
   pull_request:
     types: [closed]
-    branches: "**"
+    branches: 
+      - main
+      - tmp/ci-testing
+    
 
 env:
     EVENT_CONTEXT: ${{ toJSON(github.event) }}
@@ -13,7 +16,7 @@ env:
 
 jobs:
   if_merged:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'tmp/ci-testing'
     runs-on: self-hosted
     steps:
       - name: converting object to json
